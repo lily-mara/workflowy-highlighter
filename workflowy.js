@@ -3,7 +3,14 @@ style.type = 'text/css';
 
 document.getElementsByTagName('head')[0].appendChild(style);
 
-function paint(color) {
+window.addEventListener('focus', updateStyle, false);
+
+function updateStyle(color) {
+	style.innerText = `
+	${ selector() } {
+		background-color: red;
+		color: white;
+	}`;
 }
 
 function pad(n) {
@@ -35,16 +42,11 @@ function midnightTimeout(fn) {
     return setTimeout(fn, msToMidnight);
 }
 
-function updateStyle() {
-	style.innerText = `
-	${ selector() } {
-		background-color: red;
-		color: white;
-	}`;
-
+function updateStyleAtMidnight() {
+	updateStyle();
 	midnightTimeout(() => {
-		updateStyle();
+		updateStyleAtMidnight();
 	});
 }
 
-updateStyle();
+updateStyleAtMidnight();
