@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Workflowy Task Highlighter",
+  "version": "0.1",
+
+  "description": "Highlights all tasks due today",
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.workflowy.com/*"],
+      "js": ["workflowy.js"]
+    }
+  ]
+
+}
