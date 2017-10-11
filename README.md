@@ -1,4 +1,4 @@
-# Workflowy Task Highlighter
+# Workflowy Tag Highlighter
 
 I saw
 [this](https://blog.workflowy.com/2014/04/24/workflowy-tip-dates-for-easy-filtering/)
