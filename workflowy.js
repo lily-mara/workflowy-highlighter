@@ -1,13 +1,21 @@
-const style = document.createElement('style');
-style.type = 'text/css';
+let style;
+window.focus(updateStyle);
 
-document.getElementsByTagName('head')[0].appendChild(style);
+function updateStyle() {
+	const dates = Array.from($('.contentTag'))
+		.map(x => x.textContent)
+		.filter(x => x.match(/^#d-\d{4}-\d{2}-\d{2}$/))
+		.map(x => x.substring(3))
+		.filter((v, i, a) => a.indexOf(v) === i)
+		.map(x => new Date(x));
 
-window.addEventListener('focus', updateStyle, false);
-
-function updateStyle(color) {
 	style.innerText = `
-	${ selector() } {
+	${ todaySelector() } {
+		background-color: blue;
+		color: white;
+	}
+
+	${ pastDueSelector(dates) } {
 		background-color: red;
 		color: white;
 	}`;
@@ -17,13 +25,30 @@ function pad(n) {
 	return n < 10 ? '0' + n : n
 }
 
-function dateString() {
-	const today = new Date();
-	return `${ today.getFullYear() }-${ pad(today.getMonth() + 1) }-${ pad(today.getDate()) }`;
+function pastDueSelector(dates) {
+	const now = new Date();
+	const nowString = dateString(now);
+	const notTodayDates = dates
+		.filter(x => x < now)
+		.map(dateString)
+		.filter(x => x != nowString)
+		.map(selector)
+		.join();
+
+	return notTodayDates;
 }
 
-function selector() {
-	return `.contentTag[title*="d-${ dateString() }"]`;
+function dateString(date) {
+	return `${ date.getUTCFullYear() }-${ pad(date.getUTCMonth() + 1) }-${ pad(date.getUTCDate()) }`;
+}
+
+function todaySelector() {
+	const today = new Date();
+	return selector(dateString(today))
+}
+
+function selector(date) {
+	return `.contentTag[title*="d-${ date }"]`;
 }
 
 function midnightTimeout(fn) {
@@ -49,4 +74,10 @@ function updateStyleAtMidnight() {
 	});
 }
 
-updateStyleAtMidnight();
+$(document).ready(() => {
+	style = document.createElement('style');
+	style.type = 'text/css';
+
+	document.getElementsByTagName('head')[0].appendChild(style);
+	updateStyleAtMidnight()
+});

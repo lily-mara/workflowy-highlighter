@@ -8,7 +8,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.workflowy.com/*"],
-      "js": ["workflowy.js"]
+      "js": ["jquery.min.js", "workflowy.js"]
     }
   ]
 
