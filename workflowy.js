@@ -1,5 +1,5 @@
 let style;
-window.focus(updateStyle);
+$(window).focus(updateStyle);
 
 function updateStyle() {
 	const dates = Array.from($('.contentTag'))
