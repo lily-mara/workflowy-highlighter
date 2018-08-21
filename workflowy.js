@@ -39,7 +39,7 @@ function pastDueSelector(dates) {
 }
 
 function dateString(date) {
-	return `${ date.getUTCFullYear() }-${ pad(date.getUTCMonth() + 1) }-${ pad(date.getUTCDate()) }`;
+	return `${ date.getFullYear() }-${ pad(date.getMonth() + 1) }-${ pad(date.getDate()) }`;
 }
 
 function todaySelector() {
